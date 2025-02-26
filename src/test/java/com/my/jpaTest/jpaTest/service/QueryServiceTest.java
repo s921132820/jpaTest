@@ -36,4 +36,30 @@ class QueryServiceTest {
             }
         }
     }
+
+    @Test
+    @DisplayName("findMemberName")
+    void findMemberName() {
+        queryService.findMemberName().stream().forEach(x-> System.out.println("name : " + x));
+    }
+
+    @Test
+    @DisplayName("findPinkMembers")
+    void findPinkMembers() {
+        queryService.findPinkMembers().stream().forEach(x-> System.out.println("name : " + x));
+    }
+
+    @Test
+    @DisplayName("memberCount")
+    void memberCount() {
+        System.out.println("아이브 인원 수 : " + queryService.memberCount());
+    }
+
+    @Test
+    @DisplayName("getMemberInfoList")
+    void getMemberInfoList() {
+        queryService.getMemberInfoList()
+                .stream().forEach(x -> System.out.println(x));
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.my.jpaTest.jpaTest.service;
 
+import com.my.jpaTest.jpaTest.dto.MemberInfo;
 import com.my.jpaTest.jpaTest.examEntity.GirlGroup;
 import com.my.jpaTest.jpaTest.examEntity.IdolMember;
 import jakarta.persistence.EntityManager;
@@ -41,5 +42,35 @@ public class QueryService {
         TypedQuery<String> query = em.createQuery(sql, String.class);
         List<String> nameList = query.getResultList();
         return nameList;
+    }
+
+    // 멤버 중에 blackPink 소속의 이름만 출력
+    public List<String> findPinkMembers() {
+        String sql = "SELECT m.name FROM IdolMember AS m " +
+                "WHERE m.girlGroup.name=:groupName";
+        TypedQuery<String> query = em.createQuery(sql, String.class)
+                .setParameter("groupName", "블랙핑크");
+        return query.getResultList();
+    }
+
+    // Ive 멤버의 인원수 구하는 쿼리
+    public Long memberCount() {
+        String sql = "SELECT COUNT(m) FROM IdolMember m " +
+                "WHERE m.girlGroup.name=:groupName";
+        Query query = em.createQuery(sql);
+        query.setParameter("groupName", "아이브");
+        Long result = (Long) query.getSingleResult();
+        return result;
+    }
+
+    // DTO(MemberInfo)로 받기
+    // name, groupName, enterName
+    public List<MemberInfo> getMemberInfoList() {
+        String sql = "SELECT NEW " +
+                "com.my.jpaTest.jpaTest.dto.MemberInfo(" +
+                "m.name, m.girlGroup.name, m.girlGroup.entertainment.name)" +
+                " FROM IdolMember AS m";
+        TypedQuery<MemberInfo> query = em.createQuery(sql, MemberInfo.class);
+        return query.getResultList();
     }
 }
