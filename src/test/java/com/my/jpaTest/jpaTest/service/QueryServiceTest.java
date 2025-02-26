@@ -1,0 +1,39 @@
+package com.my.jpaTest.jpaTest.service;
+
+import com.my.jpaTest.jpaTest.examEntity.GirlGroup;
+import com.my.jpaTest.jpaTest.examEntity.IdolMember;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+class QueryServiceTest {
+    @Autowired
+    QueryService queryService;
+
+    @Test
+    @DisplayName("dynimicQuery:원영찾기")
+    void dynimicQuery() {
+        List<IdolMember> memberList = queryService.dynimicQuery();
+        memberList.stream()
+                .forEach(x -> System.out.println("name : " + x.getName()));
+    }
+
+    @Test
+    @DisplayName("findAllGirlGroup")
+    void findAllGirlGroup() {
+        List<GirlGroup> girlGroupList = queryService.findAllGirlGroup();
+        for (GirlGroup group : girlGroupList) {
+            System.out.println("Group Name : " + group.getName());
+            System.out.println("====================");
+            for (IdolMember member : group.getIdolMemberList()) {
+                System.out.println("Member : " + member.getId());
+            }
+        }
+    }
+}
